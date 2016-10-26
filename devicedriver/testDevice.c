@@ -5,7 +5,7 @@
 
 //module attributes
 
-MODULE_LICENSE("GPL");
+MODULE_LICENSE("GPLv3");
 MODULE_DESCRIPTION("Test Device Driver");
 MODULE_AUTHOR("#rfm");
 
@@ -16,7 +16,7 @@ static int times = 0;
 //prototypes,else the structure initialization that follows fail
 
 static int dev_open(struct inode *,struct file *);
-static int dev_rls(struct inode *,sturct file *);
+static int dev_rls(struct inode *,struct file *);
 static ssize_t dev_read(struct file *,char *,size_t,loff_t *);
 static ssize_t dev_write(struct file *,const char *,size_t,loff_t *);
 
@@ -26,7 +26,7 @@ static struct file_operations fops =
 	.read = dev_read, //address data
 	.open = dev_open, //address data
 	.write = dev_write, //addres data
-	.release = dev_rls, //address data
+	.release = dev_rls //address data
 };
 
 int init_module(void)
@@ -44,7 +44,7 @@ void cleanup_module(void)
 	unregister_chrdev(95,"testDev");
 }
 
-static int dev_open(struct inode *inod,sturct file *fil)
+static int dev_open(struct inode *inod,struct file *fil)
 {
 	times++;
 	printk(KERN_ALERT,"Device opened %d times \n",times);
@@ -63,15 +63,15 @@ static ssize_t dev_read(struct file *filp,char *buff,size_t len,loff_t *off)
 return count;
 }
 
-static int ssize_t dev_write(struct file *filp,const char *buff,size_t len,loff_t *off)
+static  ssize_t dev_write(struct file *filp,const char *buff,size_t len,loff_t *off)
 {
-	short int = len-1;
+	short ind = len-1;
 	short count =0;
 	memset(msg,0,100);
 	readPos=0;
 	while(len>0)
 	{
-		msh[count++] = buff[ind--];
+		msg[count++] = buff[ind--];
 		len--;
 	}
 return count;
